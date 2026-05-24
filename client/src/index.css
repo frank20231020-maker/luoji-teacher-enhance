@@ -1,0 +1,81 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #5da9ff;
+  --color-primary-light: #6fb8ff;
+  --color-primary-pale: #9dd1ff;
+  --color-text-main: #2c3e50;
+  --color-text-muted: #5a6b7d;
+  --font-sans: 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text-main);
+  background: linear-gradient(145deg, #e8f4ff 0%, #f0f7ff 35%, #dceeff 70%, #e6f2fc 100%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 自定义滚动条 */
+.scroll-gentle::-webkit-scrollbar {
+  width: 6px;
+}
+.scroll-gentle::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scroll-gentle::-webkit-scrollbar-thumb {
+  background: rgba(93, 169, 255, 0.35);
+  border-radius: 3px;
+}
+.scroll-gentle::-webkit-scrollbar-thumb:hover {
+  background: rgba(93, 169, 255, 0.55);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.loading-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(93, 169, 255, 0.08) 25%,
+    rgba(93, 169, 255, 0.18) 50%,
+    rgba(93, 169, 255, 0.08) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.streaming-cursor::after {
+  content: '▍';
+  color: #5da9ff;
+  animation: pulse-soft 1s ease-in-out infinite;
+  margin-left: 2px;
+}
