@@ -15,19 +15,23 @@ const frontendOrigins = (process.env.FRONTEND_URL || '')
 
 const devOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173'];
 const allowedOrigins = [...new Set([...frontendOrigins, ...devOrigins])];
+const isVercelOrigin = (origin) => /^https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(origin);
 
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || frontendOrigins.length === 0 || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.includes(origin) || isVercelOrigin(origin)) {
         callback(null, origin || true);
       } else {
         callback(new Error(`CORS blocked: ${origin}`));
       }
     },
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   }),
 );
+app.options('*', cors());
 
 app.use(express.json({ limit: '2mb' }));
 
