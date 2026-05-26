@@ -3,9 +3,6 @@
  */
 export const TEACHER_IMAGE_URL = '/luoji.png';
 
-/** 生产环境 API 地址（Vercel 环境变量 VITE_API_BASE_URL），开发环境留空走 Vite 代理 */
-export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
-
 export const DEFAULT_API_SETTINGS = {
   apiKey: '',
   baseUrl: 'https://newapi.yuaiweiwu.com/v1',
