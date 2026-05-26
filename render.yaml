@@ -1,23 +1,17 @@
 services:
   - type: web
-    name: luoji-teacher-api
-    runtime: node
+    name: luoji-teacher-enhance-api
+    env: node
     plan: free
-    region: singapore
+    autoDeploy: true
     rootDir: server
     buildCommand: npm install
     startCommand: npm start
-    healthCheckPath: /api/health
+    healthCheckPath: /health
     envVars:
-      - key: NODE_ENV
-        value: production
       - key: OPENAI_API_KEY
         sync: false
       - key: OPENAI_BASE_URL
         value: https://newapi.yuaiweiwu.com/v1
       - key: OPENAI_MODEL
         value: gpt-5-5
-      - key: PORT
-        value: 3001
-      - key: FRONTEND_URL
-        sync: false
