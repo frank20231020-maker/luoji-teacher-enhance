@@ -31,6 +31,10 @@ app.use(
 
 app.use(express.json({ limit: '2mb' }));
 
+app.get('/health', (_req, res) => {
+  res.status(200).type('application/json; charset=utf-8').json({ status: 'ok' });
+});
+
 app.get('/api/health', (_req, res) => {
   res.json({ ok: true, model: process.env.OPENAI_MODEL || 'gpt-5-5' });
 });

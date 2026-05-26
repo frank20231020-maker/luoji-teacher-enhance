@@ -3,7 +3,6 @@ services:
     name: luoji-teacher-enhance-api
     env: node
     plan: free
-    region: singapore
     autoDeploy: true
     rootDir: server
     buildCommand: npm install
