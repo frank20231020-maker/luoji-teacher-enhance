@@ -6,9 +6,9 @@ export default function MainWorkspace({
   error,
 }) {
   return (
-    <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-white/50 bg-white/40 shadow-lg shadow-blue-100/40 backdrop-blur-md">
+    <div className="flex min-h-0 flex-1 gap-3 overflow-hidden rounded-2xl border border-white/50 bg-white/40 p-3 shadow-lg shadow-blue-100/40 backdrop-blur-md">
       {/* 原始脚本输入区 */}
-      <div className="flex min-h-0 flex-1 flex-col border-b border-white/40">
+      <div className="flex min-w-0 flex-1 flex-col rounded-xl border border-white/45 bg-white/35">
         <label className="shrink-0 px-4 pt-3 pb-1 text-xs font-semibold text-[#5a6b7d]">
           原始脚本
           <span className="ml-2 font-normal text-[#5DA9FF]/80">支持一句话、段落或整节课长文本</span>
@@ -24,7 +24,7 @@ export default function MainWorkspace({
       </div>
 
       {/* 优化后讲解输出区 */}
-      <div className="relative flex min-h-0 flex-1 flex-col">
+      <div className="relative flex min-w-0 flex-1 flex-col rounded-xl border border-white/45 bg-white/35">
         <label className="shrink-0 px-4 pt-3 pb-1 text-xs font-semibold text-[#5a6b7d]">
           优化后讲稿
           {loading && (

@@ -17,5 +17,7 @@ services:
         value: https://newapi.yuaiweiwu.com/v1
       - key: OPENAI_MODEL
         value: gpt-5-5
+      - key: PORT
+        value: 3001
       - key: FRONTEND_URL
         sync: false

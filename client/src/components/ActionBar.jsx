@@ -15,7 +15,7 @@ export default function ActionBar({
     <div className="flex shrink-0 flex-wrap items-center gap-3 border-t border-white/40 bg-white/20 px-4 py-3 backdrop-blur-sm">
       <button
         type="button"
-        onClick={onOptimize}
+        onClick={() => onOptimize('brief')}
         disabled={loading || !hasInput}
         className={`${btnBase} bg-gradient-to-r from-[#6FB8FF] to-[#5DA9FF] text-white shadow-md shadow-blue-300/40 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-300/50 active:translate-y-0`}
       >
@@ -29,7 +29,28 @@ export default function ActionBar({
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
-            一键优化
+            简略版优化
+          </>
+        )}
+      </button>
+
+      <button
+        type="button"
+        onClick={() => onOptimize('detailed')}
+        disabled={loading || !hasInput}
+        className={`${btnBase} border border-[#5DA9FF]/30 bg-white/60 text-[#2c3e50] hover:border-[#5DA9FF]/50 hover:bg-white/90 hover:-translate-y-0.5`}
+      >
+        {loading ? (
+          <>
+            <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[#5DA9FF]/30 border-t-[#5DA9FF]" />
+            优化中…
+          </>
+        ) : (
+          <>
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h10" />
+            </svg>
+            详细版优化
           </>
         )}
       </button>

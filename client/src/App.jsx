@@ -3,8 +3,20 @@ import Header from './components/Header';
 import MainWorkspace from './components/MainWorkspace';
 import TeacherPanel from './components/TeacherPanel';
 import ActionBar from './components/ActionBar';
+import ApiSettingsModal from './components/ApiSettingsModal';
 import { copyToClipboard, downloadTxt, downloadDocx } from './utils/download';
-import { API_BASE_URL } from './config';
+import { API_BASE_URL, DEFAULT_API_SETTINGS } from './config';
+
+const API_SETTINGS_STORAGE_KEY = 'luoji-teacher-api-settings';
+
+function loadApiSettings() {
+  try {
+    const saved = window.localStorage.getItem(API_SETTINGS_STORAGE_KEY);
+    return saved ? { ...DEFAULT_API_SETTINGS, ...JSON.parse(saved) } : DEFAULT_API_SETTINGS;
+  } catch {
+    return DEFAULT_API_SETTINGS;
+  }
+}
 
 export default function App() {
   const [input, setInput] = useState('');
@@ -13,6 +25,8 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [toast, setToast] = useState('');
+  const [apiSettings, setApiSettings] = useState(loadApiSettings);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const abortRef = useRef(null);
 
   const showToast = (msg) => {
@@ -20,7 +34,7 @@ export default function App() {
     setTimeout(() => setToast(''), 2500);
   };
 
-  const handleOptimize = useCallback(async () => {
+  const handleOptimize = useCallback(async (optimizationMode = 'detailed') => {
     if (!input.trim() || loading) return;
 
     abortRef.current?.abort();
@@ -35,7 +49,14 @@ export default function App() {
       const res = await fetch(`${API_BASE_URL}/api/optimize`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: input, grade }),
+        body: JSON.stringify({
+          text: input,
+          grade,
+          apiKey: apiSettings.apiKey,
+          baseUrl: apiSettings.baseUrl,
+          model: apiSettings.model,
+          optimizationMode,
+        }),
         signal: controller.signal,
       });
 
@@ -73,7 +94,26 @@ export default function App() {
       setLoading(false);
       abortRef.current = null;
     }
-  }, [input, grade, loading]);
+  }, [input, grade, loading, apiSettings]);
+
+  const handleSaveApiSettings = (nextSettings) => {
+    const normalized = {
+      apiKey: nextSettings.apiKey.trim(),
+      baseUrl: (nextSettings.baseUrl || DEFAULT_API_SETTINGS.baseUrl).trim(),
+      model: (nextSettings.model || DEFAULT_API_SETTINGS.model).trim(),
+    };
+
+    setApiSettings(normalized);
+    window.localStorage.setItem(API_SETTINGS_STORAGE_KEY, JSON.stringify(normalized));
+    setSettingsOpen(false);
+    showToast('API 设置已保存');
+  };
+
+  const handleClearApiSettings = () => {
+    setApiSettings(DEFAULT_API_SETTINGS);
+    window.localStorage.removeItem(API_SETTINGS_STORAGE_KEY);
+    showToast('API 设置已清空');
+  };
 
   const handleClear = () => {
     abortRef.current?.abort();
@@ -111,7 +151,10 @@ export default function App() {
 
   return (
     <div className="flex h-full min-h-screen flex-col">
-      <Header />
+      <Header
+        hasApiKey={!!apiSettings.apiKey.trim()}
+        onOpenSettings={() => setSettingsOpen(true)}
+      />
 
       <div className="flex min-h-0 flex-1 gap-0 px-4 pb-4">
         {/* 左侧主工作区 */}
@@ -144,6 +187,14 @@ export default function App() {
           {toast}
         </div>
       )}
+
+      <ApiSettingsModal
+        open={settingsOpen}
+        settings={apiSettings}
+        onClose={() => setSettingsOpen(false)}
+        onSave={handleSaveApiSettings}
+        onClear={handleClearApiSettings}
+      />
     </div>
   );
 }

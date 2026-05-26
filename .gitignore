@@ -7,5 +7,6 @@ server/.env
 client/.env
 client/.env.local
 *.log
+logs/
 .DS_Store
 .vercel

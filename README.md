@@ -10,16 +10,38 @@
 
 ## 快速启动
 
-### 1. 安装依赖
+### 1. 拷贝项目并安装依赖
+
+把整个 `luoji-teacher-enhance` 文件夹拷贝到本机后，在项目根目录执行：
 
 ```bash
-cd /Users/fl/projects/luoji-teacher-enhance
 npm install
 npm install --prefix server
 npm install --prefix client
 ```
 
-### 2. 配置 API Key
+### 2. 启动本地服务
+
+```bash
+npm run dev
+```
+
+- 前端：http://localhost:5173
+- 后端：http://localhost:3001
+
+### 3. 在页面配置 API Key
+
+打开前端页面后，点击右上角 `API 设置`，填入公司提供的配置：
+
+- `API KEY`：公司提供的密钥
+- `Base URL`：OpenAI 兼容接口地址，默认 `https://newapi.yuaiweiwu.com/v1`
+- `Model`：模型名，默认 `gpt-5-5`
+
+配置会保存在当前浏览器的 `localStorage` 中，只用于本机请求，不会写入项目文件。
+
+## 可选：使用 server/.env 配置
+
+如果希望继续使用传统后端环境变量方式，也可以执行：
 
 ```bash
 cp .env.example server/.env
@@ -34,14 +56,7 @@ OPENAI_MODEL=gpt-5-5
 PORT=3001
 ```
 
-### 3. 启动开发环境
-
-```bash
-npm run dev
-```
-
-- 前端：http://localhost:5173
-- 后端：http://localhost:3001
+页面中填写的 API 设置会优先于 `server/.env`。
 
 ## 端口说明
 
@@ -59,7 +74,8 @@ npm run dev
 | 修改系统 Prompt | `server/prompts/system.js` |
 | 修改年级风格 Prompt | `server/prompts/grades.js` |
 | 替换罗辑老师图片 | `client/src/config.js` → `TEACHER_IMAGE_URL` |
-| API Key / 模型 / 端口 | `server/.env` |
+| 页面默认 API 设置 | `client/src/config.js` → `DEFAULT_API_SETTINGS` |
+| 后端兜底 API 设置 / 端口 | `server/.env` |
 
 ## 生产构建
 
