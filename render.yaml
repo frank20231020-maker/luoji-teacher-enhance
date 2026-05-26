@@ -3,6 +3,7 @@ services:
     name: luoji-teacher-enhance-api
     env: node
     plan: free
+    region: singapore
     autoDeploy: true
     rootDir: server
     buildCommand: npm install
@@ -15,3 +16,9 @@ services:
         value: https://newapi.yuaiweiwu.com/v1
       - key: OPENAI_MODEL
         value: gpt-5-5
+      - key: PORT
+        value: 3001
+      - key: NODE_ENV
+        value: production
+      - key: FRONTEND_URL
+        sync: false
